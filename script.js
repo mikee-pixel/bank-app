@@ -39,11 +39,11 @@ const account2 = {
     "2019-11-01T13:15:33.035Z",
     "2019-11-30T09:48:16.867Z",
     "2019-12-25T06:04:23.907Z",
-    "2020-01-25T14:18:46.235Z",
-    "2020-02-05T16:33:06.386Z",
-    "2020-04-10T14:43:26.374Z",
-    "2020-06-25T18:49:59.371Z",
-    "2020-07-26T12:01:20.894Z",
+    "2020-01-12T14:18:46.235Z",
+    "2023-06-25T05:33:06.386Z",
+    "2023-06-26T14:43:26.374Z",
+    "2023-06-27T12:49:59.371Z",
+    "2023-06-28T12:01:20.894Z",
   ],
   currency: "USD",
   locale: "en-US",
@@ -92,20 +92,45 @@ const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
 
+//CURRENCY FORMATTER FUNCTION
+const currencyFormatter = (currency) => {
+  const option = {
+    style: 'currency',
+    currency: `${currentUser.currency}`
+  }
 
-/*DISPLAY ACCOUNT MOVEMENTS*/
+  return Intl.NumberFormat(`${currentUser.locale}`, option).format(currency);
+}
+
+//DATE FORMATTER FUNCTION
+
+const dateTimeFormatter = (date) => {
+  const option = {
+    // weekday: 'long',
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    // hour: 'numeric',
+    // minute: 'numeric'
+  }
+  return Intl.DateTimeFormat(`${currentUser.locale}`, option).format(date);
+}
+
+
+
+//DISPLAY ACCOUNT MOVEMENTS
 const displayAccountMov = (movements, isSort = false) => {
   containerMovements.innerHTML = '';
   
   const movs = isSort ? movements.slice().sort((a, b) => a - b) : movements;
-  movs.forEach( (mov, numberOfTransc) => {
-    // console.log(numberOfTransc);
+  movs.forEach( (mov, i) => {
+
     const typeDeposit = mov > 0 ? `deposit` : `withdrawal`;
     const htmlContent = `
       <div class="movements__row">
-        <div class="movements__type movements__type--${typeDeposit}">${numberOfTransc + 1} ${typeDeposit}</div>
-        <div class="movements__date">3 days ago</div>
-        <div class="movements__value">${mov}€</div>
+        <div class="movements__type movements__type--${typeDeposit}">${i + 1} ${typeDeposit}</div>
+        <div class="movements__date">${dateTimeFormatter(new Date(currentUser.movementsDates[i]))}</div>
+        <div class="movements__value">${currencyFormatter(mov)}</div>
       </div>
     `;
     containerMovements.insertAdjacentHTML('afterbegin', htmlContent);
@@ -114,30 +139,30 @@ const displayAccountMov = (movements, isSort = false) => {
 
 
 
-/*CALCULATE THE ACCOUNT BALANCE*/
+//CALCULATE THE ACCOUNT BALANCE
 const displayAccountBalance = (movements) => {
-  const reducerValue = movements.reduce((acc, curr) => acc + curr, 0);
-  labelBalance.textContent = `${reducerValue}€`;
+  currentUser.accBal = movements.reduce((acc, curr) => acc += curr, 0);
+  labelBalance.textContent = currencyFormatter(currentUser.accBal);
 }
 
 
 
-/*CALCULATE TRANSACTION SUMMARY*/
+//CALCULATE TRANSACTION SUMMARY
 const displayAccountSummary = (movements) => {
   const transcDesposit = movements.filter(mov => mov > 0).reduce((acc, curr) => acc + curr, 0);
-  labelSumIn.textContent = `${transcDesposit}€`;
+  labelSumIn.textContent = currencyFormatter(transcDesposit);
 
   const transWithdraw = movements.filter(mov => mov < 0).reduce((acc, curr) => acc + curr, 0);
-  labelSumOut.textContent = `${Math.abs(transWithdraw)}€`;
+  labelSumOut.textContent = currencyFormatter(transWithdraw);
 
   const calcInterestRate = movements.filter(mov => mov > 0).map(deposit => (deposit * currentUser.interestRate) / 100).filter(interest => interest > 1).reduce((acc, curr) => acc + curr, 0);
-  labelSumInterest.textContent = `${calcInterestRate}€`;
+  labelSumInterest.textContent = currencyFormatter(calcInterestRate);
 
 }
 
 
 
-/*SORTING DISPLAY TRANSACTION*/
+//SORTING DISPLAY TRANSACTION
 let isSort = false;
 btnSort.addEventListener('click', (e) => {
   e.preventDefault();
@@ -146,7 +171,6 @@ btnSort.addEventListener('click', (e) => {
   isSort = !isSort;
   console.log(isSort);
 });
-
 
 
 
@@ -164,14 +188,14 @@ console.log(parseInt(labelBalance.textContent));
 btnTransfer.addEventListener('click', (e) => {
   e.preventDefault();
   const accountReceiver = accounts.find(receiverUser => receiverUser.username === inputTransferTo.value);
-  if(accountReceiver && Number(inputTransferAmount.value) > 0 && Number(inputTransferAmount.value) < parseInt(labelBalance.textContent)){
+  if(accountReceiver && Number(inputTransferAmount.value) > 0 && Number(inputTransferAmount.value) < currentUser.accBal){
     currentUser.movements.push(Number(-inputTransferAmount.value));
     accountReceiver.movements.push(Number(inputTransferAmount.value));
     updateIU();
     inputTransferAmount.value = inputTransferTo.value = "";
     inputTransferAmount.blur();
   } else {
-    //Show error message here
+    console.error('Error Transaction');
   }
 })
 
@@ -214,9 +238,23 @@ const accountUserName = accounts.map(acc => acc.username = acc.owner.toLowerCase
 
 //USER LOGIN
 let currentUser;
-currentUser = account1;
+currentUser = account2;
 updateIU();
 
+
+//To show the date
+const dateNow = new Date();
+labelDate.textContent = dateTimeFormatter(dateNow);
+console.log(dateTimeFormatter(new Date(2023, 9, 24)));
+
+//DATE TRANSACTION CALCULATION
+const y = new Date();
+const calcDateTrans = (date) => {
+  const dateresult = currentUser.movementsDates[1] - date;
+  return dateresult;
+}
+
+console.log(currentUser.movementsDates[1], y);
 
 overlayBtnSignUp.addEventListener('click', () => {
   formMainContainer.classList.add('switching-active');
@@ -233,10 +271,19 @@ btnSignIn.addEventListener('click', (e) => {
   currentUser = accounts.find(acc => acc.username === signInEmailInput.value);
   console.log(currentUser);
   if(currentUser && currentUser.pin === Number(signInPassInput.value)){
+    //To hide the login form and display the app
     formMotherContainer.classList.add('hidden');
     containerApp.classList.add('active');
     navigation.classList.add('active');
+
+    //To show the date
+    labelDate.textContent = dateTimeFormatter(dateNow);
+    
+
+    //Update the UI every time user login
     updateIU();
+
+    //Greeting to user
     labelWelcome.textContent = `Welcome back! ${currentUser.owner.split(" ")[0]},`;
     userNamex.textContent = `${currentUser.owner.split(" ")[0]} ${currentUser.owner.split(" ").slice(-1).map(word => word[0])}.`;
     signInEmailInput.value = signInPassInput.value = "";
