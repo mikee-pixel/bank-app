@@ -102,20 +102,27 @@ const currencyFormatter = (currency) => {
   return Intl.NumberFormat(`${currentUser.locale}`, option).format(currency);
 }
 
-//DATE FORMATTER FUNCTION
 
-const dateTimeFormatter = (date) => {
-  const option = {
-    // weekday: 'long',
+
+const calcDateTrans = (date) => {
+  const calcDayPassed = (date1, date2) => {
+    return Math.round((date2 - date1) / (1000 * 60 * 60 * 24));
+  }
+
+  const dayPassed = calcDayPassed(date, new Date());
+  const dateTimeOption = {
     year: 'numeric',
     month: 'numeric',
     day: 'numeric',
-    // hour: 'numeric',
-    // minute: 'numeric'
   }
-  return Intl.DateTimeFormat(`${currentUser.locale}`, option).format(date);
-}
 
+  if(dayPassed === 0) return `Today`;
+  if(dayPassed === 1) return `Yesterday`;
+  if(dayPassed < 7 ) return `${dayPassed} days ago`;
+  else {
+    return new Intl.DateTimeFormat(currentUser.locale, dateTimeOption).format(date);
+  }
+}
 
 
 //DISPLAY ACCOUNT MOVEMENTS
@@ -125,11 +132,14 @@ const displayAccountMov = (movements, isSort = false) => {
   const movs = isSort ? movements.slice().sort((a, b) => a - b) : movements;
   movs.forEach( (mov, i) => {
 
+    const date = new Date(currentUser.movementsDates[i]);
+    const transDate = calcDateTrans(date);
+
     const typeDeposit = mov > 0 ? `deposit` : `withdrawal`;
     const htmlContent = `
       <div class="movements__row">
         <div class="movements__type movements__type--${typeDeposit}">${i + 1} ${typeDeposit}</div>
-        <div class="movements__date">${dateTimeFormatter(new Date(currentUser.movementsDates[i]))}</div>
+        <div class="movements__date">${transDate}</div>
         <div class="movements__value">${currencyFormatter(mov)}</div>
       </div>
     `;
@@ -180,7 +190,6 @@ const updateIU = () => {
   displayAccountBalance(currentUser.movements)
   displayAccountSummary(currentUser.movements);
 }
-console.log(parseInt(labelBalance.textContent));
 
 
 
@@ -241,20 +250,17 @@ let currentUser;
 currentUser = account2;
 updateIU();
 
+const calculationDateTransaction = (date) => {
+  const caclDate = (date1, date2) => {
+    return (date2 - date1) / (1000 * 60 * 60 * 24);
+  }
 
-//To show the date
-const dateNow = new Date();
-labelDate.textContent = dateTimeFormatter(dateNow);
-console.log(dateTimeFormatter(new Date(2023, 9, 24)));
-
-//DATE TRANSACTION CALCULATION
-const y = new Date();
-const calcDateTrans = (date) => {
-  const dateresult = currentUser.movementsDates[1] - date;
-  return dateresult;
+  const dayPassed = caclDate(new Date(currentUser.movementsDates[6]), date);
+  console.log(dayPassed);
 }
 
-console.log(currentUser.movementsDates[1], y);
+calculationDateTransaction(new Date());
+console.log(currentUser.movementsDates[6])
 
 overlayBtnSignUp.addEventListener('click', () => {
   formMainContainer.classList.add('switching-active');
@@ -277,8 +283,19 @@ btnSignIn.addEventListener('click', (e) => {
     navigation.classList.add('active');
 
     //To show the date
+    const dateNow = new Date();
+    const dateTimeFormatter = (date) => {
+      const option = {
+        // weekday: 'long',
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        // hour: 'numeric',
+        // minute: 'numeric'
+      }
+      return Intl.DateTimeFormat(`${currentUser.locale}`, option).format(date);
+    }
     labelDate.textContent = dateTimeFormatter(dateNow);
-    
 
     //Update the UI every time user login
     updateIU();
