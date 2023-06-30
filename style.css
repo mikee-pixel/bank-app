@@ -52,10 +52,10 @@ nav {
   align-items: center;
   height: 15vh;
   padding: 0 0 20px 0;
-  /* display: none; */
+  display: none;
 
   /*STYLE IN THE MEANTIME*/
-  display: flex;
+  /* display: flex; */
 }
 
 nav.active {
@@ -125,12 +125,12 @@ nav .user-profile-container .log-out-container p {
 /*LOGIN*/
 .form-mother-container {
   height: 100vh;
-  /* display: flex; */
+  display: flex;
   justify-content: center;
   align-items: center;
 
   /*STYLE IN THE MEANTIME*/
-  display: none;
+  /* display: none; */
 
 }
 
@@ -348,13 +348,13 @@ nav .user-profile-container .log-out-container p {
   position: relative;
   max-width: 100rem;
   margin: 1rem auto;
-  display: grid;
+  /* display: grid; */
   grid-template-columns: 4fr 3fr;
   grid-template-rows: auto repeat(3, 15rem) auto;
   gap: 2rem;
 
   /* NOTE This creates the fade in/out anumation */
-  /* display: none; */
+  display: none;
 }
 
 .app.active {

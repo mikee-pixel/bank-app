@@ -103,25 +103,23 @@ const currencyFormatter = (currency) => {
 }
 
 
-
-const calcDateTrans = (date) => {
+//TRANSACTION DATE FORMATTER FUNCTION
+const calculationDateTransaction = (date) => {
   const calcDayPassed = (date1, date2) => {
-    return Math.round((date2 - date1) / (1000 * 60 * 60 * 24));
+    return Math.trunc((date2 - date1) / (1000 * 60 * 60 * 24));
   }
 
-  const dayPassed = calcDayPassed(date, new Date());
-  const dateTimeOption = {
+  const dateOption = {
     year: 'numeric',
     month: 'numeric',
     day: 'numeric',
   }
 
-  if(dayPassed === 0) return `Today`;
-  if(dayPassed === 1) return `Yesterday`;
-  if(dayPassed < 7 ) return `${dayPassed} days ago`;
-  else {
-    return new Intl.DateTimeFormat(currentUser.locale, dateTimeOption).format(date);
-  }
+  const dayPassed = calcDayPassed(date, new Date());
+  if(dayPassed === 0) return `TODAY`;
+  else if(dayPassed === 1) return `YESTERDAY`;
+  else if(dayPassed >= 2 && dayPassed <= 7) return `${dayPassed} DAYS AGO`;
+  else return Intl.DateTimeFormat(`${currentUser.locale}`, dateOption).format(date);
 }
 
 
@@ -132,14 +130,14 @@ const displayAccountMov = (movements, isSort = false) => {
   const movs = isSort ? movements.slice().sort((a, b) => a - b) : movements;
   movs.forEach( (mov, i) => {
 
-    const date = new Date(currentUser.movementsDates[i]);
-    const transDate = calcDateTrans(date);
+    const dates = new Date(currentUser.movementsDates[i]);
+    const dateConverter = calculationDateTransaction(dates);
 
     const typeDeposit = mov > 0 ? `deposit` : `withdrawal`;
     const htmlContent = `
       <div class="movements__row">
         <div class="movements__type movements__type--${typeDeposit}">${i + 1} ${typeDeposit}</div>
-        <div class="movements__date">${transDate}</div>
+        <div class="movements__date">${dateConverter}</div>
         <div class="movements__value">${currencyFormatter(mov)}</div>
       </div>
     `;
@@ -176,10 +174,8 @@ const displayAccountSummary = (movements) => {
 let isSort = false;
 btnSort.addEventListener('click', (e) => {
   e.preventDefault();
-  console.log('Sort button is clicked!');
   displayAccountMov(accounts[0].movements, !isSort);
   isSort = !isSort;
-  console.log(isSort);
 });
 
 
@@ -199,7 +195,10 @@ btnTransfer.addEventListener('click', (e) => {
   const accountReceiver = accounts.find(receiverUser => receiverUser.username === inputTransferTo.value);
   if(accountReceiver && Number(inputTransferAmount.value) > 0 && Number(inputTransferAmount.value) < currentUser.accBal){
     currentUser.movements.push(Number(-inputTransferAmount.value));
+    currentUser.movementsDates.push((new Date()).toISOString());
+
     accountReceiver.movements.push(Number(inputTransferAmount.value));
+    accountReceiver.movementsDates.push((new Date()).toISOString());
     updateIU();
     inputTransferAmount.value = inputTransferTo.value = "";
     inputTransferAmount.blur();
@@ -216,6 +215,7 @@ btnLoan.addEventListener('click', (e) => {
   const requestLoan = currentUser.movements.some(deposit => deposit > inputLoanAmount.value * 0.1);
   if(requestLoan === true){
     currentUser.movements.push(Number(inputLoanAmount.value));
+    currentUser.movementsDates.push((new Date()).toISOString());
     updateIU();
     inputLoanAmount.value = '';
     inputLoanAmount.blur();
@@ -247,20 +247,34 @@ const accountUserName = accounts.map(acc => acc.username = acc.owner.toLowerCase
 
 //USER LOGIN
 let currentUser;
-currentUser = account2;
-updateIU();
+// currentUser = account2;
+// updateIU();
 
-const calculationDateTransaction = (date) => {
-  const caclDate = (date1, date2) => {
-    return (date2 - date1) / (1000 * 60 * 60 * 24);
-  }
 
-  const dayPassed = caclDate(new Date(currentUser.movementsDates[6]), date);
-  console.log(dayPassed);
-}
 
-calculationDateTransaction(new Date());
-console.log(currentUser.movementsDates[6])
+//TIMEOUT TIMER FUNCTION
+// let time = 120;
+const timeoutTimer = (numberoftime) => {
+  const timer = setInterval(function() {
+    const minute = Math.trunc(numberoftime / 60);
+    const second = numberoftime % 60;
+    numberoftime--;
+    console.log(`${minute}:${second}`);
+    labelTimer.textContent = `${minute}:${String(second).padStart(2, 0)}`;
+    if(numberoftime === 0){
+      clearInterval(timer);
+      console.warn('Timer should now stop');
+
+      //User will be logout
+      navigation.classList.remove('active');
+      containerApp.classList.remove('active');
+      formMotherContainer.classList.remove('hidden');
+
+    }
+  }, 1000);
+} 
+  
+
 
 overlayBtnSignUp.addEventListener('click', () => {
   formMainContainer.classList.add('switching-active');
@@ -277,6 +291,10 @@ btnSignIn.addEventListener('click', (e) => {
   currentUser = accounts.find(acc => acc.username === signInEmailInput.value);
   console.log(currentUser);
   if(currentUser && currentUser.pin === Number(signInPassInput.value)){
+
+    //Timeout timer wil initiate
+    timeoutTimer(120);
+
     //To hide the login form and display the app
     formMotherContainer.classList.add('hidden');
     containerApp.classList.add('active');
@@ -286,12 +304,9 @@ btnSignIn.addEventListener('click', (e) => {
     const dateNow = new Date();
     const dateTimeFormatter = (date) => {
       const option = {
-        // weekday: 'long',
         year: 'numeric',
         month: 'numeric',
         day: 'numeric',
-        // hour: 'numeric',
-        // minute: 'numeric'
       }
       return Intl.DateTimeFormat(`${currentUser.locale}`, option).format(date);
     }
@@ -323,4 +338,5 @@ btnLogOut.addEventListener('click', () => {
   navigation.classList.remove('active');
   containerApp.classList.remove('active');
   formMotherContainer.classList.remove('hidden');
+    (0);
 })
