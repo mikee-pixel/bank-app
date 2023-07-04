@@ -253,27 +253,26 @@ let currentUser;
 
 
 //TIMEOUT TIMER FUNCTION
-// let time = 120;
-const timeoutTimer = (numberoftime) => {
-  const timer = setInterval(function() {
-    const minute = Math.trunc(numberoftime / 60);
-    const second = numberoftime % 60;
-    numberoftime--;
-    console.log(`${minute}:${second}`);
-    labelTimer.textContent = `${minute}:${String(second).padStart(2, 0)}`;
-    if(numberoftime === 0){
-      clearInterval(timer);
-      console.warn('Timer should now stop');
-
-      //User will be logout
-      navigation.classList.remove('active');
-      containerApp.classList.remove('active');
-      formMotherContainer.classList.remove('hidden');
-
-    }
-  }, 1000);
-} 
+const timeOutTimer = () => {
   
+  const tick = () => {
+    const minute = time / 60;
+    const second = time % 60;
+    time--;
+    labelTimer.textContent = `${String(Math.trunc(minute)).padStart(2, 0)}:${String(second).padStart(2, 0)}`;
+    console.log(`${String(Math.trunc(minute)).padStart(2, 0)}:${String(second).padStart(2, 0)}`);
+    console.log(timer);  
+    if(time === 0){
+      clearInterval(timer)
+    }
+  }
+
+  let time = 10;
+  const timer = setInterval(tick, 1000);
+}
+
+timeOutTimer();
+
 
 
 overlayBtnSignUp.addEventListener('click', () => {
@@ -291,9 +290,9 @@ btnSignIn.addEventListener('click', (e) => {
   currentUser = accounts.find(acc => acc.username === signInEmailInput.value);
   console.log(currentUser);
   if(currentUser && currentUser.pin === Number(signInPassInput.value)){
-
-    //Timeout timer wil initiate
-    timeoutTimer(120);
+    //Timer initiate
+    timeOutTimer(true);
+    
 
     //To hide the login form and display the app
     formMotherContainer.classList.add('hidden');
@@ -311,6 +310,7 @@ btnSignIn.addEventListener('click', (e) => {
       return Intl.DateTimeFormat(`${currentUser.locale}`, option).format(date);
     }
     labelDate.textContent = dateTimeFormatter(dateNow);
+
 
     //Update the UI every time user login
     updateIU();
@@ -331,12 +331,12 @@ btnSignIn.addEventListener('click', (e) => {
 })
 
 
-
 //USER LOGOUT
 btnLogOut.addEventListener('click', () => {
   console.log('Logout button is clicked!');
   navigation.classList.remove('active');
   containerApp.classList.remove('active');
   formMotherContainer.classList.remove('hidden');
-    (0);
+  timeOutTimer(false);
+
 })
