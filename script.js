@@ -199,6 +199,10 @@ btnTransfer.addEventListener('click', (e) => {
 
     accountReceiver.movements.push(Number(inputTransferAmount.value));
     accountReceiver.movementsDates.push((new Date()).toISOString());
+
+    //Reset the timeout timer
+    time = 20;
+
     updateIU();
     inputTransferAmount.value = inputTransferTo.value = "";
     inputTransferAmount.blur();
@@ -216,6 +220,10 @@ btnLoan.addEventListener('click', (e) => {
   if(requestLoan === true){
     currentUser.movements.push(Number(inputLoanAmount.value));
     currentUser.movementsDates.push((new Date()).toISOString());
+
+    //Reset the timeout timer
+    time = 20;
+
     updateIU();
     inputLoanAmount.value = '';
     inputLoanAmount.blur();
@@ -246,7 +254,7 @@ const accountUserName = accounts.map(acc => acc.username = acc.owner.toLowerCase
 
 
 //USER LOGIN
-let currentUser;
+let currentUser, timer, time = 0;
 // currentUser = account2;
 // updateIU();
 
@@ -261,17 +269,16 @@ const timeOutTimer = () => {
     time--;
     labelTimer.textContent = `${String(Math.trunc(minute)).padStart(2, 0)}:${String(second).padStart(2, 0)}`;
     console.log(`${String(Math.trunc(minute)).padStart(2, 0)}:${String(second).padStart(2, 0)}`);
-    console.log(timer);  
     if(time === 0){
-      clearInterval(timer)
+      clearInterval(timer);
+      navigation.classList.remove('active');
+      containerApp.classList.remove('active');
+      formMotherContainer.classList.remove('hidden');
     }
   }
 
-  let time = 10;
-  const timer = setInterval(tick, 1000);
+  timer = setInterval(tick, 1000);
 }
-
-timeOutTimer();
 
 
 
@@ -291,8 +298,8 @@ btnSignIn.addEventListener('click', (e) => {
   console.log(currentUser);
   if(currentUser && currentUser.pin === Number(signInPassInput.value)){
     //Timer initiate
-    timeOutTimer(true);
-    
+    timeOutTimer();
+    time = 20;
 
     //To hide the login form and display the app
     formMotherContainer.classList.add('hidden');
@@ -333,10 +340,9 @@ btnSignIn.addEventListener('click', (e) => {
 
 //USER LOGOUT
 btnLogOut.addEventListener('click', () => {
-  console.log('Logout button is clicked!');
   navigation.classList.remove('active');
   containerApp.classList.remove('active');
   formMotherContainer.classList.remove('hidden');
-  timeOutTimer(false);
+  clearInterval(timer);
 
 })

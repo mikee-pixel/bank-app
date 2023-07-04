@@ -30,7 +30,7 @@ body {
 
 /*GLOBAL STYLE*/
 .btn-login {
-  background-color: #394867;
+  background-color: #091353;
   color: white;
   font-size: 15px;
   font-weight: 500;
@@ -199,10 +199,10 @@ nav .user-profile-container .log-out-container p {
 
 .form-main-container .form-container form .social-med-container .social-icon {
   font-size: 18px;
-  border: 1px solid #394867;
+  border: 1px solid #091353;
   border-radius: 50%;
   margin: 0 10px;
-  color: #394867;
+  color: #091353;
   width: 40px;
   height: 40px;
   display: flex;
@@ -272,7 +272,7 @@ nav .user-profile-container .log-out-container p {
   width: 250%;
   left: -150%;
   height: 100%;
-  background-color: #394867;
+  background-color: #091353;
   transition: transform 0.6s ease-in-out;
 }
 
@@ -419,11 +419,11 @@ nav .user-profile-container .log-out-container p {
 }
 
 .movements__type--deposit {
-  background-image: linear-gradient(to top left, #39b385, #9be15d);
+  background-image: linear-gradient(to top left, #03b16f, #c8eda6);
 }
 
 .movements__type--withdrawal {
-  background-image: linear-gradient(to top left, #e52a5a, #ff585f);
+  background-image: linear-gradient(to top left, #fc0040, #f29094);
 }
 
 .movements__value {
@@ -478,22 +478,22 @@ nav .user-profile-container .log-out-container p {
 }
 
 .operation--transfer {
-  background-image: linear-gradient(to top left, #ffb003, #ffcb03);
+  background-image: linear-gradient(to top left, #091353, #12173b);
 }
 
 .operation--loan {
-  background-image: linear-gradient(to top left, #39b385, #9be15d);
+  background-image: linear-gradient(to top left, #B2F9FC, #026b70);
 }
 
 .operation--close {
-  background-image: linear-gradient(to top left, #e52a5a, #ff585f);
+  background-image: linear-gradient(to top left, #D5D5D5, #ff0000);
 }
 
 h2 {
   margin-bottom: 1.5rem;
   font-size: 1.7rem;
   font-weight: 600;
-  color: #333;
+  color: white;
 }
 
 .form {
@@ -521,7 +521,7 @@ h2 {
   font-family: inherit;
   font-size: 1.5rem;
   text-align: center;
-  color: #333;
+  color: white;
   padding: 0.3rem 1rem;
   border-radius: 0.7rem;
   transition: all 0.3s;
@@ -535,6 +535,7 @@ h2 {
 .form__label {
   font-size: 1.3rem;
   text-align: center;
+  color: white;
 }
 
 .form__btn {
