@@ -116,9 +116,9 @@ const calculationDateTransaction = (date) => {
   }
 
   const dayPassed = calcDayPassed(date, new Date());
-  if(dayPassed === 0) return `TODAY`;
-  else if(dayPassed === 1) return `YESTERDAY`;
-  else if(dayPassed >= 2 && dayPassed <= 7) return `${dayPassed} DAYS AGO`;
+  if (dayPassed === 0) return `TODAY`;
+  else if (dayPassed === 1) return `YESTERDAY`;
+  else if (dayPassed >= 2 && dayPassed <= 7) return `${dayPassed} DAYS AGO`;
   else return Intl.DateTimeFormat(`${currentUser.locale}`, dateOption).format(date);
 }
 
@@ -126,9 +126,9 @@ const calculationDateTransaction = (date) => {
 //DISPLAY ACCOUNT MOVEMENTS
 const displayAccountMov = (movements, isSort = false) => {
   containerMovements.innerHTML = '';
-  
+
   const movs = isSort ? movements.slice().sort((a, b) => a - b) : movements;
-  movs.forEach( (mov, i) => {
+  movs.forEach((mov, i) => {
 
     const dates = new Date(currentUser.movementsDates[i]);
     const dateConverter = calculationDateTransaction(dates);
@@ -193,7 +193,7 @@ const updateIU = () => {
 btnTransfer.addEventListener('click', (e) => {
   e.preventDefault();
   const accountReceiver = accounts.find(receiverUser => receiverUser.username === inputTransferTo.value);
-  if(accountReceiver && Number(inputTransferAmount.value) > 0 && Number(inputTransferAmount.value) < currentUser.accBal){
+  if (accountReceiver && Number(inputTransferAmount.value) > 0 && Number(inputTransferAmount.value) < currentUser.accBal) {
     currentUser.movements.push(Number(-inputTransferAmount.value));
     currentUser.movementsDates.push((new Date()).toISOString());
 
@@ -201,7 +201,7 @@ btnTransfer.addEventListener('click', (e) => {
     accountReceiver.movementsDates.push((new Date()).toISOString());
 
     //Reset the timeout timer
-    time = 20;
+    time = 300;
 
     updateIU();
     inputTransferAmount.value = inputTransferTo.value = "";
@@ -217,12 +217,12 @@ btnTransfer.addEventListener('click', (e) => {
 btnLoan.addEventListener('click', (e) => {
   e.preventDefault();
   const requestLoan = currentUser.movements.some(deposit => deposit > inputLoanAmount.value * 0.1);
-  if(requestLoan === true){
+  if (requestLoan === true) {
     currentUser.movements.push(Number(inputLoanAmount.value));
     currentUser.movementsDates.push((new Date()).toISOString());
 
     //Reset the timeout timer
-    time = 20;
+    time = 300;
 
     updateIU();
     inputLoanAmount.value = '';
@@ -237,7 +237,7 @@ btnLoan.addEventListener('click', (e) => {
 //CLOSE/DELETE ACCOUNT
 btnClose.addEventListener('click', (e) => {
   e.preventDefault();
-  if(inputCloseUsername.value === currentUser.username && Number(inputClosePin.value) === currentUser.pin){
+  if (inputCloseUsername.value === currentUser.username && Number(inputClosePin.value) === currentUser.pin) {
     const accDeleted = accounts.findIndex(acc => acc.username === inputCloseUsername.value);
     accounts.splice(accDeleted, 1);
     containerApp.classList.remove('active');
@@ -262,14 +262,14 @@ let currentUser, timer, time = 0;
 
 //TIMEOUT TIMER FUNCTION
 const timeOutTimer = () => {
-  
+
   const tick = () => {
     const minute = time / 60;
     const second = time % 60;
     time--;
     labelTimer.textContent = `${String(Math.trunc(minute)).padStart(2, 0)}:${String(second).padStart(2, 0)}`;
     console.log(`${String(Math.trunc(minute)).padStart(2, 0)}:${String(second).padStart(2, 0)}`);
-    if(time === 0){
+    if (time === 0) {
       clearInterval(timer);
       navigation.classList.remove('active');
       containerApp.classList.remove('active');
@@ -296,10 +296,10 @@ btnSignIn.addEventListener('click', (e) => {
   e.preventDefault();
   currentUser = accounts.find(acc => acc.username === signInEmailInput.value);
   console.log(currentUser);
-  if(currentUser && currentUser.pin === Number(signInPassInput.value)){
+  if (currentUser && currentUser.pin === Number(signInPassInput.value)) {
     //Timer initiate
     timeOutTimer();
-    time = 20;
+    time = 300;
 
     //To hide the login form and display the app
     formMotherContainer.classList.add('hidden');
@@ -327,10 +327,10 @@ btnSignIn.addEventListener('click', (e) => {
     userNamex.textContent = `${currentUser.owner.split(" ")[0]} ${currentUser.owner.split(" ").slice(-1).map(word => word[0])}.`;
     signInEmailInput.value = signInPassInput.value = "";
 
-  } else if (signInEmailInput.value === '' || signInPassInput === ''){
+  } else if (signInEmailInput.value === '' || signInPassInput === '') {
     signInErrorMessage.classList.add('active');
     signInErrorMessage.textContent = '*Input field(s) cannot be empty';
-  } 
+  }
   else {
     signInErrorMessage.classList.add('active');
     signInErrorMessage.textContent = '*This user does not exists';
