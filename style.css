@@ -20,9 +20,10 @@ html {
 
 body {
     font-family: 'Poppins', sans-serif;
-    color: #444;
-    background-color: #f3f3f3;
-    height: 100vh;
+    /* color: #444; */
+    background: linear-gradient(16deg, rgba(157, 132, 183, 1) 10%, rgba(9, 19, 83, 1) 50%, rgba(213, 213, 213, 1) 85%);
+    background-repeat: no-repeat;
+    height: calc(100vh + 0px);
     padding: 0;
 
 }
@@ -54,10 +55,13 @@ body {
 
 /*NAVIGATION*/
 nav {
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     height: 15vh;
     padding: 0 0 20px 0;
+    width: 80%;
+    max-width: 1080px;
+    margin: 0 auto;
     display: none;
 
     /*STYLE IN THE MEANTIME*/
@@ -72,6 +76,7 @@ nav .welcome {
     font-size: 15px;
     font-weight: 400;
     line-height: 1.5em;
+    color: white;
 }
 
 nav .branding-logo-container {
@@ -102,11 +107,13 @@ nav .user-profile-container .user-avatar-container {
 
 nav .user-profile-container .user-avatar-container .fa-user {
     font-size: 20px;
+    color: white;
 }
 
 nav .user-profile-container .user-avatar-container .user-name {
     padding: 0 0 0 10px;
     font-size: 13px;
+    color: white;
 }
 
 nav .user-profile-container .log-out-container {
@@ -125,6 +132,7 @@ nav .user-profile-container .log-out-container #logout-btn {
 nav .user-profile-container .log-out-container p {
     font-size: 13px;
     padding: 0 0 0 10px;
+    color: white;
 }
 
 
@@ -154,8 +162,6 @@ nav .user-profile-container .log-out-container p {
     box-shadow: 25px 30px 55px #5557;
     position: relative;
     overflow: hidden;
-
-    /*IN THE MEANTIME TO HIDE THE LOGIN FORM*/
     display: block;
 }
 
@@ -366,10 +372,11 @@ nav .user-profile-container .log-out-container p {
 /* MAIN */
 .app {
     position: relative;
-    max-width: 100rem;
+    width: 80%;
+    max-width: 1080px;
     margin: 1rem auto;
     /* display: grid; */
-    grid-template-columns: 4fr 3fr;
+    grid-template-columns: 4fr 2fr;
     grid-template-rows: auto repeat(3, 15rem) auto;
     gap: 2rem;
 
@@ -394,16 +401,18 @@ nav .user-profile-container .log-out-container p {
     font-size: 2.2rem;
     font-weight: 500;
     margin-bottom: -0.2rem;
+    color: white;
 }
 
 .balance__date {
     font-size: 1.4rem;
-    color: #888;
+    color: white;
 }
 
 .balance__value {
     font-size: 4.5rem;
     font-weight: 400;
+    color: white;
 }
 
 /* MOVEMENTS */
@@ -465,6 +474,7 @@ nav .user-profile-container .log-out-container p {
     font-weight: 500;
     text-transform: uppercase;
     margin-right: 0.8rem;
+    color: white;
 }
 
 .summary__value {
@@ -488,6 +498,7 @@ nav .user-profile-container .log-out-container p {
     font-size: 1.3rem;
     font-weight: 500;
     cursor: pointer;
+    color: white;
 }
 
 /* OPERATIONS */
@@ -577,13 +588,110 @@ h2 {
     margin-top: 1.9rem;
     text-align: right;
     font-size: 1.25rem;
+    color: white;
 }
 
 .timer {
     font-weight: 600;
 }
 
+@media screen and (min-width: 1279px) and (max-width: 1366px) {
+    body{
+        height: calc(100vh + 25px);
+    }
+}
 
+@media screen and (min-width: 1025px) and (max-width: 1280px) {
+    body {
+        height: calc(100vh + 65px);
+    }
+}
+
+@media screen and (max-width: 1024px){
+    .app {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .balance {
+        grid-column: 1 / span 3;
+    }
+
+    .movements {
+        grid-column: 1 / span 2;
+        grid-row: 2 / span 3;
+    }
+
+    .summary {
+        grid-column: 1 / span 2;
+        grid-row: 5 / span 2;
+    }
+
+    .operation--transfer {
+        grid-row: 2 / span 1;
+        grid-column: 3 /span 1;
+    }
+
+    .operation--loan {
+        grid-row: 3 / span 1;
+        grid-column: 3 /span 1;
+    }
+
+    .operation--close {
+        grid-row: 4 / span 1;
+        grid-column: 3 / span 1;
+    }
+
+    .logout-timer {
+        grid-row: 5 /span 1;
+        grid-column: 3 / span 1;
+        text-align: center;
+    }
+
+    .form__label {
+        font-size: 0.9em;
+    }
+}
+
+
+@media screen and (max-width: 1023px) {
+    .movements{
+        grid-column: 1 / span 3;
+        grid-row: 2 / span 3;
+    }
+
+    .operation--transfer {
+        grid-row: 5 / span 1;
+        grid-column: 1 /span 1;
+    }
+
+    .operation--loan {
+        grid-row: 5 / span 1;
+        grid-column: 2 /span 1;
+    }
+
+    .operation--close {
+        grid-row: 5 / span 1;
+        grid-column: 3 / span 1;
+    }
+
+    .summary {
+        grid-column: 1 / span 3;
+        grid-row: 6 / span 1;
+    }
+
+    .logout-timer {
+        grid-row: 7 / span 1;
+        grid-column: 3 / span 1;
+    }
+
+    .operation {
+        padding: 1rem 1rem;
+    }
+
+    .form{
+        gap: 0.5rem 0.5rem;
+    }
+}
 @media screen and (max-width: 768px) {
     .btn-login {
         border-radius: 5px;
@@ -619,6 +727,99 @@ h2 {
 
     .form-main-container .container-overlay {
         display: none;
+    }
+}
+
+@media screen and (max-width: 540px) {
+    body{
+        height: auto;
+    }
+    .app {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+
+    .balance__label {
+        font-size: 12px;
+    }
+        
+    .balance, .balance__date {
+        grid-column: 1 / span 1;
+    }
+
+    .balance__value{
+        font-size: 20px;
+    }
+
+    .movements__row{
+        display: flex;
+    align-items: center;
+    justify-content: space-around;
+    }
+
+    .movements__type {
+        font-size: 8px;
+        padding: 0.1rem 5px;
+        margin-right: 0px;
+    }
+    
+    .movements__date{
+        font-size: 10px;
+    }
+
+    .movements__value {
+        font-size: 14px;
+        margin-left: initial;
+    }
+
+    .movements {
+        grid-column: 1 / span 1;
+        grid-row: 2 / span 3;
+    }
+
+    .summary {
+        display: flex;
+        justify-content: space-between;
+        grid-column: 1 / span 1;
+        grid-row: 8 / span 2;
+        flex-wrap: wrap;
+    }
+
+    .summary__label {
+        font-size: 10px;
+        margin-right: 5px;
+    }
+
+    .summary__value {
+        font-size: 12px;
+        margin-right: 10px;
+    }
+
+    .btn--sort {
+        margin-top: 15px;
+        margin-left: auto;
+        font-size: 10px;
+    }
+
+    .operation--transfer {
+        grid-row: 5 / span 1;
+        grid-column: 1 /span 1;
+    }
+
+    .operation--loan {
+        grid-row: 6 / span 1;
+        grid-column: 1 /span 1;
+    }
+
+    .operation--close {
+        grid-row: 7 / span 1;
+        grid-column: 1 / span 1;
+    }
+
+    .logout-timer {
+        grid-row: 10 / span 1;
+        grid-column: 1 / span 1;
+        text-align: right;
+        margin-top: 0px;
     }
 }
 

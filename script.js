@@ -256,8 +256,8 @@ const accountUserName = accounts.map(acc => acc.username = acc.owner.toLowerCase
 
 //USER LOGIN
 let currentUser, timer, time = 0;
-// currentUser = account2;
-// updateIU();
+currentUser = account2;
+updateIU();
 
 
 
