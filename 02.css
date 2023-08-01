@@ -1,0 +1,170 @@
+<style>
+.hero-image img {
+    width: 100%;
+    height: auto;
+}
+
+.special-section .grid-container {
+    max-width: 1080px !important;
+}
+
+.hero-text p {
+    width: 70%;
+}
+
+.section-title h6 {
+    width: 67%;
+}
+
+.two-col-icon h6.gutentor-title,
+.four-col-iicon h6.gutentor-title {
+    margin-bottom: 20px;
+}
+
+.special-section .gutentor-single-item-content {
+    padding: 0 !important;
+}
+
+.special-section .gutentor-single-item-content,
+.special-section .gutentor-single-item-image-box {
+    text-align: left;
+}
+
+.two-col-icon .grid-row,
+.section-title-bottom h6,
+.section-title h6 {
+    margin: 0 auto;
+}
+
+.two-col-icon .grid-row {
+    width: 90%;
+}
+
+.two-col-icon p.gutentor-single-item-desc,
+.section-title-bottom h6 {
+    width: 98%;
+}
+
+/*BUTTON TEXT LINK*/
+.btn-text-link span:hover::after {
+    margin-left: 20px;
+}
+
+
+#section-021a3c55-d26b-4fd2-bdff-c46c7bc871cf .gutentor-single-item-button {
+    width: 85%;
+}
+
+.btn-text-link span::after {
+    content: url(https://www.gofluent.com/wp-content/uploads/2022/06/right-arrow-icon-18x7-1.png);
+    position: absolute;
+    margin-left: 10px;
+    transition: ease-in-out 0.5s;
+}
+
+.btn-text-link span:hover {
+    text-decoration: underline;
+}
+
+@media screen and (max-width:1024px) {
+
+    .hero-banner .banner-column,
+    .hero-banner .grid-row {
+        display: block;
+    }
+
+    .hero-banner .banner-column {
+        max-width: 100%;
+    }
+
+    .hero-image img {
+        width: 60%;
+    }
+
+    .hero-text p {
+        width: 100%;
+    }
+
+    .section-title-bottom h6 {
+        width: 90%;
+    }
+
+    .special-section .grid-container {
+        width: 94%;
+    }
+
+    .hero-banner .grid-container {
+        width: 85%;
+    }
+
+    #section-021a3c55-d26b-4fd2-bdff-c46c7bc871cf .gutentor-single-item-button {
+        width: auto;
+    }
+}
+
+@media screen and (max-width:991px) {
+
+    .section-title h6,
+    .two-col-icon .grid-row,
+    .section-title-bottom h6 {
+        width: 100%;
+    }
+
+    .two-col-icon .gutentor-grid-column:first-child {
+        padding: 0;
+    }
+
+    .btn-text-link span {
+        width: 85%;
+    }
+
+    .section-title .grid-container {
+        padding-left: 28px;
+        padding-right: 28px;
+    }
+
+    .hero-banner .grid-container {
+        width: 95%;
+    }
+}
+
+@media screen and (max-width:820px) {
+    .hero-banner h1 {
+        width: 96%;
+    }
+}
+
+@media screen and (max-width:767px) {
+
+    .two-col-icon .gutentor-grid-column,
+    .four-col-iicon .gutentor-grid-column {
+        padding: 0;
+    }
+
+    .btn-text-link span,
+    .hero-banner h1,
+    .hero-image img,
+    .btn-text-link span {
+        width: 100%;
+    }
+
+    .hero-image img {
+        margin: 20px auto;
+    }
+
+    .special-section .gutentor-section-title {
+        margin-bottom: 20px;
+    }
+
+    .special-section .gutentor-single-item-content,
+    .special-section .gutentor-single-item-image-box {
+        text-align: center;
+    }
+}
+
+@media screen and (max-width:408px) {
+    .btn-text-link span {
+        width: 80%;
+    }
+}
+</style>

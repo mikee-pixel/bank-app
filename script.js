@@ -1,303 +1,270 @@
-"use strict";
+'use strict';
 
-/////////////////////////////////////////////////
-/////////////////////////////////////////////////
-// BANKIST APP v2
+///////////////////////////////////////
+// Modal window
 
-/////////////////////////////////////////////////
-// Data
+// const modal = document.querySelector('.modal');
+const formMainContainer = document.querySelector('.form-main-container')
+const overlay = document.querySelector('.form-overlay');
+const btnCloseModal = document.querySelector('.btn--close-modal');
+const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
+const btnScroll = document.querySelector('.btn--scroll-to');
+const section1 = document.querySelector('#section--1');
+const navItems = document.querySelector('.nav__links');
+const btnContainer = document.querySelector('.operations__tab-container');
+const btnTabs = document.querySelectorAll('.operations__tab');
+const nav = document.querySelector('.nav');
+const tabContainer = document.querySelectorAll('.operations__content');
 
-// DIFFERENT DATA! Contains movement dates, currency and locale
-
-const account1 = {
-  owner: "Jonas Schmedtmann",
-  movements: [200, 455.23, -306.5, 25000, -642.21, -133.9, 79.97, 1300],
-  interestRate: 1.2, // %
-  pin: 1111,
-
-  movementsDates: [
-    "2019-11-18T21:31:17.178Z",
-    "2019-12-23T07:42:02.383Z",
-    "2020-01-28T09:15:04.904Z",
-    "2020-04-01T10:17:24.185Z",
-    "2020-05-08T14:11:59.604Z",
-    "2020-07-26T17:01:17.194Z",
-    "2020-07-28T23:36:17.929Z",
-    "2020-08-01T10:51:36.790Z",
-  ],
-  currency: "EUR",
-  locale: "pt-PT", // de-DE
+const openModal = function () {
+  formMainContainer.classList.remove('hidden');
+  overlay.classList.remove('hidden');
 };
 
-const account2 = {
-  owner: "Jessica Davis",
-  movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
-  interestRate: 1.5,
-  pin: 2222,
-
-  movementsDates: [
-    "2019-11-01T13:15:33.035Z",
-    "2019-11-30T09:48:16.867Z",
-    "2019-12-25T06:04:23.907Z",
-    "2020-01-12T14:18:46.235Z",
-    "2023-06-25T05:33:06.386Z",
-    "2023-06-26T14:43:26.374Z",
-    "2023-06-27T12:49:59.371Z",
-    "2023-06-28T12:01:20.894Z",
-  ],
-  currency: "USD",
-  locale: "en-US",
+const closeModal = function () {
+  formMainContainer.classList.add('hidden');
+  overlay.classList.add('hidden');
 };
 
-const accounts = [account1, account2];
-console.log(accounts);
 
-// Elements
-const signInErrorMessage = document.querySelector('.signin-error-message');
-const labelWelcome = document.querySelector('.welcome');
-const userNamex = document.querySelector('.user-name');
-const labelDate = document.querySelector('.date');
-const labelBalance = document.querySelector('.balance__value');
-const labelSumIn = document.querySelector('.summary__value--in');
-const labelSumOut = document.querySelector('.summary__value--out');
-const labelSumInterest = document.querySelector('.summary__value--interest');
-const labelTimer = document.querySelector('.timer');
+for (let i = 0; i < btnsOpenModal.length; i++)
+  btnsOpenModal[i].addEventListener('click', openModal);
 
-const navigation = document.querySelector('nav');
-const formMotherContainer = document.querySelector('.form-mother-container');
-const formMainContainer = document.querySelector('.form-main-container');
-const signInContainer = document.querySelector('.sign-in-container');
-const signUpContainer = document.querySelector('.sign-up-container');
-const containerApp = document.querySelector('.app');
-const containerMovements = document.querySelector('.movements');
-const overlayBtnSignIn = document.querySelector('.overlay-btn-signin');
-const overlayBtnSignUp = document.querySelector('.overlay-btn-signup');
+btnCloseModal.addEventListener('click', closeModal);
+overlay.addEventListener('click', closeModal);
 
-const btnSignIn = document.querySelector('.btn-sign-in');
-const btnLogOut = document.querySelector('#logout-btn');
-const btnSignUpMobile = document.querySelector('.btn-signup-mobile');
-const btnSignInMobile = document.querySelector('.btn-sign-in-mobile');
-const btnTransfer = document.querySelector('.form__btn--transfer');
-const btnLoan = document.querySelector('.form__btn--loan');
-const btnClose = document.querySelector('.form__btn--close');
-const btnSort = document.querySelector('.btn--sort');
-
-const signInEmailInput = document.querySelector('.sign-in-container .email-input-field');
-const signInPassInput = document.querySelector('.sign-in-container .password-input-field');
-// const inputLoginUsername = document.querySelector('.login__input--user');
-// const inputLoginPin = document.querySelector('.login__input--pin');
-const inputTransferTo = document.querySelector('.form__input--to');
-const inputTransferAmount = document.querySelector('.form__input--amount');
-const inputLoanAmount = document.querySelector('.form__input--loan-amount');
-const inputCloseUsername = document.querySelector('.form__input--user');
-const inputClosePin = document.querySelector('.form__input--pin');
-
-
-//CURRENCY FORMATTER FUNCTION
-const currencyFormatter = (currency) => {
-  const option = {
-    style: 'currency',
-    currency: `${currentUser.currency}`
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+    closeModal();
   }
-
-  return Intl.NumberFormat(`${currentUser.locale}`, option).format(currency);
-}
-
-
-//TRANSACTION DATE FORMATTER FUNCTION
-const calculationDateTransaction = (date) => {
-  const calcDayPassed = (date1, date2) => {
-    return Math.trunc((date2 - date1) / (1000 * 60 * 60 * 24));
-  }
-
-  const dateOption = {
-    year: 'numeric',
-    month: 'numeric',
-    day: 'numeric',
-  }
-
-  const dayPassed = calcDayPassed(date, new Date());
-  if (dayPassed === 0) return `TODAY`;
-  else if (dayPassed === 1) return `YESTERDAY`;
-  else if (dayPassed >= 2 && dayPassed <= 7) return `${dayPassed} DAYS AGO`;
-  else return Intl.DateTimeFormat(`${currentUser.locale}`, dateOption).format(date);
-}
-
-
-//DISPLAY ACCOUNT MOVEMENTS
-const displayAccountMov = (movements, isSort = false) => {
-  containerMovements.innerHTML = '';
-
-  const movs = isSort ? movements.slice().sort((a, b) => a - b) : movements;
-  movs.forEach((mov, i) => {
-
-    const dates = new Date(currentUser.movementsDates[i]);
-    const dateConverter = calculationDateTransaction(dates);
-
-    const typeDeposit = mov > 0 ? `deposit` : `withdrawal`;
-    const htmlContent = `
-      <div class="movements__row">
-        <div class="movements__type movements__type--${typeDeposit}">${i + 1} ${typeDeposit}</div>
-        <div class="movements__date">${dateConverter}</div>
-        <div class="movements__value">${currencyFormatter(mov)}</div>
-      </div>
-    `;
-    containerMovements.insertAdjacentHTML('afterbegin', htmlContent);
-  });
-}
-
-
-
-//CALCULATE THE ACCOUNT BALANCE
-const displayAccountBalance = (movements) => {
-  currentUser.accBal = movements.reduce((acc, curr) => acc += curr, 0);
-  labelBalance.textContent = currencyFormatter(currentUser.accBal);
-}
-
-
-
-//CALCULATE TRANSACTION SUMMARY
-const displayAccountSummary = (movements) => {
-  const transcDesposit = movements.filter(mov => mov > 0).reduce((acc, curr) => acc + curr, 0);
-  labelSumIn.textContent = currencyFormatter(transcDesposit);
-
-  const transWithdraw = movements.filter(mov => mov < 0).reduce((acc, curr) => acc + curr, 0);
-  labelSumOut.textContent = currencyFormatter(transWithdraw);
-
-  const calcInterestRate = movements.filter(mov => mov > 0).map(deposit => (deposit * currentUser.interestRate) / 100).filter(interest => interest > 1).reduce((acc, curr) => acc + curr, 0);
-  labelSumInterest.textContent = currencyFormatter(calcInterestRate);
-
-}
-
-
-
-//SORTING DISPLAY TRANSACTION
-let isSort = false;
-btnSort.addEventListener('click', (e) => {
-  e.preventDefault();
-  displayAccountMov(accounts[0].movements, !isSort);
-  isSort = !isSort;
 });
 
 
 
-//UPDATE UI
-const updateIU = () => {
-  displayAccountMov(currentUser.movements)
-  displayAccountBalance(currentUser.movements)
-  displayAccountSummary(currentUser.movements);
+//PAGE NAVIGATION USING BUBBLING AND CAPTURING 
+navItems.addEventListener('click', (e) => {
+  e.preventDefault();
+  if(e.target.classList.contains('nav_item_fade')){
+    const itemLink = document.querySelector(`${e.target.getAttribute('href')}`);
+    itemLink.scrollIntoView({behavior: 'smooth'});
+  }
+})
+
+
+
+// TABBED COMPONENTS
+btnContainer.addEventListener('click', (e) => {
+  console.log(e.target);
+  const clicked = e.target.closest('.operations__tab');
+
+  //To remove & add the ACTIVE class for each of the button.
+  btnTabs.forEach(btn => btn.classList.remove('operations__tab--active'));
+  clicked.classList.add('operations__tab--active');
+
+  //To remove & add the ACTIVE class for each of the container tab
+  tabContainer.forEach(tab => tab.classList.remove('operations__content--active'));
+  document.querySelector(`.operations__content--${clicked.dataset.tab}`).classList.add('operations__content--active');
+})
+
+
+
+//MENU FADE ANIMATION
+const navLinks = document.querySelector('.nav__links');
+const handleHover = function(e) {
+  if(e.target.classList.contains('nav_item_fade')){
+    const activeHover = e.target;
+    const navSiblings = activeHover.closest('.nav__links').querySelectorAll('.nav_item_fade');
+
+    navSiblings.forEach(el => {
+      if(el !== activeHover) el.style.opacity = this;
+    })
+  }
+}
+//Passing "argument" in handler
+navLinks.addEventListener('mouseover', handleHover.bind(0.5));
+navLinks.addEventListener('mouseout', handleHover.bind(1));
+
+
+
+//STICKY NAVIGATION
+const header = document.querySelector('.header');
+const navHeight = nav.getBoundingClientRect().height;
+
+const stickyFunct = (entries) => {
+  entries.forEach(entry =>{
+    if(!entry.isIntersecting){
+      document.querySelector('.nav').classList.add('sticky');
+    } else {
+      document.querySelector('.nav').classList.remove('sticky');
+    }
+  })
+}
+
+const headerObserver = new IntersectionObserver(stickyFunct, {
+  root: null,
+  threshold: [0, 0.2],
+  rootMargin: `-${navHeight}px`,
+})
+
+headerObserver.observe(header);
+
+//REVEALING ELEMENTS ON SCROLL
+const optionSectionObs = {
+  root: null,
+  threshold: 0.15,
+}
+
+const functSectionObs = (entries, observer) => {
+  // console.log(entries[0]);
+  entries.forEach(entry => {
+    if(!entry.isIntersecting) return 
+    else entry.target.classList.remove('section--hidden');
+
+    observer.unobserve(entry.target);
+  })
+}
+
+const sectionObserver = new IntersectionObserver(functSectionObs, optionSectionObs);
+
+const sectionContainers = document.querySelectorAll('.section');
+
+sectionContainers.forEach(sectionContainer => {
+  sectionObserver.observe(sectionContainer);
+  sectionContainer.classList.add('section--hidden');
+})
+
+
+//LAZY LOADING
+const lazyImg = document.querySelectorAll('img[data-src]');
+
+const optionImageObs = {
+  root: null,
+  threshold: 0.15,
+}
+
+const functImageObs = (entries, observer) => {
+
+  if(!entries[0].isIntersecting) return;
+  else {
+    entries[0].target.src = entries[0].target.dataset.src;
+
+    entries[0].target.addEventListener('load', () => {
+      entries[0].target.classList.remove('lazy-img');
+    })
+  }
 }
 
 
+const imageObserver = new IntersectionObserver(functImageObs, optionImageObs);
 
-//TRANSFER MONEY
-btnTransfer.addEventListener('click', (e) => {
-  e.preventDefault();
-  const accountReceiver = accounts.find(receiverUser => receiverUser.username === inputTransferTo.value);
-  if (accountReceiver && Number(inputTransferAmount.value) > 0 && Number(inputTransferAmount.value) < currentUser.accBal) {
-    currentUser.movements.push(Number(-inputTransferAmount.value));
-    currentUser.movementsDates.push((new Date()).toISOString());
-
-    accountReceiver.movements.push(Number(inputTransferAmount.value));
-    accountReceiver.movementsDates.push((new Date()).toISOString());
-
-    //Reset the timeout timer
-    time = 300;
-
-    updateIU();
-    inputTransferAmount.value = inputTransferTo.value = "";
-    inputTransferAmount.blur();
-  } else {
-    console.error('Error Transaction');
-  }
+lazyImg.forEach(img => {
+  imageObserver.observe(img);
 })
 
 
 
-//REQUEST LOAN
-btnLoan.addEventListener('click', (e) => {
-  e.preventDefault();
-  const requestLoan = currentUser.movements.some(deposit => deposit > inputLoanAmount.value * 0.1);
-  if (requestLoan === true) {
-    currentUser.movements.push(Number(inputLoanAmount.value));
-    currentUser.movementsDates.push((new Date()).toISOString());
+const slider = document.querySelectorAll('.slide');
+const btnSliderLeft = document.querySelector('.slider__btn--left');
+const btnSliderRight = document.querySelector('.slider__btn--right');
+let currentSlider = 0;
+const dots = document.querySelector('.dots');
 
-    //Reset the timeout timer
-    time = 300;
+//IN THE MEAN TIME SCALE DOWN THE SLIDER
+const sliderContainer = document.querySelector('.slider');
+// sliderContainer.style.transform = `scale(0.5)`;
+// sliderContainer.style.overflow = 'visible';
 
-    updateIU();
-    inputLoanAmount.value = '';
-    inputLoanAmount.blur();
-  } else {
-    //Show error message here
-  }
+
+//To add transform translateX 100% style incrementally for each of item slide: 100%, 200%, 300%
+slider.forEach((itemSlide, i) => {
+  itemSlide.style.transform = `translateX(${i * 100}%)`;
 })
 
 
-
-//CLOSE/DELETE ACCOUNT
-btnClose.addEventListener('click', (e) => {
-  e.preventDefault();
-  if (inputCloseUsername.value === currentUser.username && Number(inputClosePin.value) === currentUser.pin) {
-    const accDeleted = accounts.findIndex(acc => acc.username === inputCloseUsername.value);
-    accounts.splice(accDeleted, 1);
-    containerApp.classList.remove('active');
-    navigation.classList.remove('active');
-    formMotherContainer.classList.remove('hidden');
-  }
+//CREATE DOTS NAVIGATION
+slider.forEach((_, i) => {
+  const btnDotHTML = `<button class="dots__dot" data-slide="${i}"></button>`;
+  dots.insertAdjacentHTML('beforeend', btnDotHTML);  
 })
 
 
-
-//CREATE ACCOUNT USER NAME
-const accountUserName = accounts.map(acc => acc.username = acc.owner.toLowerCase().split(' ').map(initials => initials[0]).join(''));
-
-
-
-//USER LOGIN
-let currentUser, timer, time = 0;
-currentUser = account2;
-updateIU();
-
-
-
-//TIMEOUT TIMER FUNCTION
-const timeOutTimer = () => {
-
-  const tick = () => {
-    const minute = time / 60;
-    const second = time % 60;
-    time--;
-    labelTimer.textContent = `${String(Math.trunc(minute)).padStart(2, 0)}:${String(second).padStart(2, 0)}`;
-    console.log(`${String(Math.trunc(minute)).padStart(2, 0)}:${String(second).padStart(2, 0)}`);
-    if (time === 0) {
-      clearInterval(timer);
-      navigation.classList.remove('active');
-      containerApp.classList.remove('active');
-      formMotherContainer.classList.remove('hidden');
-    }
-  }
-
-  timer = setInterval(tick, 1000);
+const activatingDot = function(slide) {
+  document.querySelectorAll('.dots__dot').forEach(dot => {
+    dot.classList.remove('dots__dot--active');
+  })
+  document.querySelector(`.dots__dot[data-slide="${slide}"]`).classList.add('dots__dot--active');
 }
 
-//DISPLAY ERROR MESSAGE
+activatingDot(currentSlider);
 
-const displayErrorFunc = () => {
-  let errorTime = 5;
-  const errorFuncRunning = () => {
-    signInErrorMessage.classList.add('active');
-    signInErrorMessage.textContent = '*Input field(s) cannot be empty';
-    errorTime--; 
-    console.log(errorTime);
-    if(errorTime === 0){
-      clearInterval(displayError);
-      signInErrorMessage.classList.remove('active');
-    }
-  }
+
+//ADDING FUNCTION TO ARROW LEFT BUTTON SLIDER
+const goToSlide = function(currentSlide){
+  slider.forEach((itemSlider, i) => {
+    itemSlider.style.transform = `translateX(${100 * (i - currentSlide)}%)`;
+  })
+}
+
+const nextSlide = () => {
+  if(currentSlider === slider.length - 1) currentSlider = 0;
+  else currentSlider++;
+  console.log('Key arrow right is pressed');
+  goToSlide(currentSlider);
+  activatingDot(currentSlider);
+}
+
+const prevSlide = () => {
+  if(currentSlider === 0) currentSlider = slider.length - 1;
+  else currentSlider--;
+  console.log('Key arrow left is pressed');
+  goToSlide(currentSlider);
+  activatingDot(currentSlider);
+}
+
+//DOTS NAVIGATIONS EVENT LISTENERS
+dots.addEventListener('click', (e) => {
+  console.log(e);
   
-  const displayError = setInterval(errorFuncRunning, 1000);
-}
+  if(e.target.classList.contains('dots__dot')){
+    const clickedDOT = e.target.dataset.slide;
+    goToSlide(clickedDOT);
+    activatingDot(clickedDOT);
+  }
+})
+
+
+//Everytime arrow button is trigger the transform translateX value for each of item slide will increment by 100%
+btnSliderRight.addEventListener('click', nextSlide)
+
+//Everytime arrow button is trigger the transform translateX value for each of item slide will decrement by 100%
+btnSliderLeft.addEventListener('click', prevSlide)
+
+
+//ADDING EVENTLISTENER FOR LEFT AND RIGHT ARROW KEYS
+document.addEventListener('keydown', (e) => {
+  console.log(e);
+  if(e.key === 'ArrowRight') nextSlide();
+  if(e.key === 'ArrowLeft') prevSlide();
+  sliderDotNav(currentSlider);
+  activatingDot(currentSlider);
+})
+
+
+
+
+//SCRIPT FOR LOGIN FORM
+const signInErrorMessage = document.querySelector('.signin-error-message');
+// const formMainContainer = document.querySelector('.form-main-container');
+const signInContainer = document.querySelector('.sign-in-container');
+const signUpContainer = document.querySelector('.sign-up-container');
+const overlayBtnSignIn = document.querySelector('.overlay-btn-signin');
+const overlayBtnSignUp = document.querySelector('.overlay-btn-signup');
+const btnSignIn = document.querySelector('.btn-sign-in');
+const btnLogOut = document.querySelector('#logout-btn');
+const btnSignUpMobile = document.querySelector('.btn-signup-mobile');
+const btnSignInMobile = document.querySelector('.btn-sign-in-mobile');
+const signInEmailInput = document.querySelector('.sign-in-container .email-input-field');
+const signInPassInput = document.querySelector('.sign-in-container .password-input-field');
 
 
 //LOGIN FORM FUNCTION & LOGIN
@@ -353,16 +320,6 @@ btnSignIn.addEventListener('click', (e) => {
     signInErrorMessage.classList.add('active');
     signInErrorMessage.textContent = '*This user does not exists';
   }
-})
-
-
-//USER LOGOUT
-btnLogOut.addEventListener('click', () => {
-  navigation.classList.remove('active');
-  containerApp.classList.remove('active');
-  formMotherContainer.classList.remove('hidden');
-  clearInterval(timer);
-
 })
 
 
