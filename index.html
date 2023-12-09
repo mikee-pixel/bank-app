@@ -22,6 +22,9 @@
             </a>
 
             <ul class="nav__links">
+                <li class="close_btn_mobile">
+                    <i class="fa-regular fa-circle-xmark"></i>
+                </li>
                 <li class="nav__item">
                     <a class="nav__link nav_item_fade" href="#section--1">Features</a>
                 </li>
@@ -35,19 +38,25 @@
                     <a class="nav__link nav__link--btn btn--show-modal" href="#">Open account</a>
                 </li>
             </ul>
+
+            <div class="burger__menu">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+            
         </nav>
 
         <div class="header__title">
             <h1>
-                When
+                Your
                 <!-- Green highlight effect -->
-                <span class="highlight">banking</span>
-                meets<br />
-                <span class="highlight">minimalist</span>
+                <span class="highlight">Secure</span>
+                Online<br />
+                <span class="highlight">Banking </span>App
             </h1>
-            <h4>A simpler banking experience for a simpler life.</h4>
+            <p>Take control of your finances anytime, anywhere with our intuitive and secure online banking app. Enjoy a
+                seamless banking experience designed to make managing your money easier than ever.</p>
             <button class="btn--text btn--scroll-to">Learn more &DownArrow;</button>
-            <img src="img/hero.png" class="header__img" alt="Minimalist bank items" />
+            <img src="img/banner-img.png" class="header__img" alt="Girl holding a phone" />
         </div>
     </header>
 
@@ -60,50 +69,93 @@
         </div>
 
         <div class="features">
-            <img src="img/digital-lazy.jpg" data-src="img/digital.jpg" alt="Computer" class="features__img lazy-img" />
-            <div class="features__feature">
+            <img src="img/digital-lazy.jpg" data-src="img/digital.jpg" alt="Computer"
+                class="features__img lazy-img grid-item1" />
+            <div class="features__feature grid-item2">
                 <div class="features__icon">
                     <svg>
                         <use xlink:href="img/icons.svg#icon-monitor"></use>
                     </svg>
                 </div>
-                <h5 class="features__header">100% digital bank</h5>
+                <h5 class="features__header">Real-time account monitoring</h5>
                 <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde alias
-                    sint quos? Accusantium a fugiat porro reiciendis saepe quibusdam
-                    debitis ducimus.
+                    Track your account balances, transactions, and spending habits in real-time with interactive
+                    dashboards and detailed reports.
                 </p>
             </div>
 
-            <div class="features__feature">
+            <div class="features__feature grid-item3">
                 <div class="features__icon">
                     <svg>
                         <use xlink:href="img/icons.svg#icon-trending-up"></use>
                     </svg>
                 </div>
-                <h5 class="features__header">Watch your money grow</h5>
+                <h5 class="features__header">Effortless transfers</h5>
                 <p>
-                    Nesciunt quos autem dolorum voluptates cum dolores dicta fuga
-                    inventore ab? Nulla incidunt eius numquam sequi iste pariatur
-                    quibusdam!
+                    Transfer funds between your accounts or send money to others quickly and easily within the app.
                 </p>
             </div>
-            <img src="img/grow-lazy.jpg" data-src="img/grow.jpg" alt="Plant" class="features__img lazy-img" />
+            <img src="img/grow-lazy.jpg" data-src="img/grow.jpg" alt="Plant"
+                class="features__img lazy-img grid-item4" />
 
-            <img src="img/card-lazy.jpg" data-src="img/card.jpg" alt="Credit card" class="features__img lazy-img" />
-            <div class="features__feature">
+            <img src="img/card-lazy.jpg" data-src="img/card.jpg" alt="Credit card"
+                class="features__img lazy-img grid-item5" />
+            <div class="features__feature grid-item6">
                 <div class="features__icon">
                     <svg>
                         <use xlink:href="img/icons.svg#icon-credit-card"></use>
                     </svg>
                 </div>
-                <h5 class="features__header">Free debit card included</h5>
+                <h5 class="features__header">One-click bill payments</h5>
                 <p>
-                    Quasi, fugit in cumque cupiditate reprehenderit debitis animi enim
-                    eveniet consequatur odit quam quos possimus assumenda dicta fuga
-                    inventore ab.
+                    Schedule and pay bills with a single click, ensuring you never miss a payment deadline.
                 </p>
             </div>
+
+            <div class="features__feature grid-item7">
+                <div class="features__icon">
+                    <svg>
+                        <use xlink:href="img/icons.svg#icon-monitor"></use>
+                    </svg>
+                </div>
+                <h5 class="features__header">Mobile check deposit</h5>
+                <p>
+                    Deposit checks directly into your account using your phone's camera, eliminating the need to visit a
+                    branch.
+                </p>
+            </div>
+            <img src="img/digital-lazy.jpg" data-src="img/digital.jpg" alt="Computer"
+                class="features__img lazy-img grid-item8" />
+
+            <img src="img/grow-lazy.jpg" data-src="img/grow.jpg" alt="Plant"
+                class="features__img lazy-img grid-item9" />
+            <div class="features__feature grid-item10">
+                <div class="features__icon">
+                    <svg>
+                        <use xlink:href="img/icons.svg#icon-trending-up"></use>
+                    </svg>
+                </div>
+                <h5 class="features__header">Simple loan application</h5>
+                <p>
+                    Apply for loans directly through the app and receive a quick decision, making it easier than ever to
+                    access the funds you need.
+                </p>
+            </div>
+
+            <div class="features__feature grid-item11">
+                <div class="features__icon">
+                    <svg>
+                        <use xlink:href="img/icons.svg#icon-credit-card"></use>
+                    </svg>
+                </div>
+                <h5 class="features__header">Budgeting tools</h5>
+                <p>
+                    Set financial goals, track your progress, and create budgets to help you stay on top of your
+                    finances.
+                </p>
+            </div>
+            <img src="img/card-lazy.jpg" data-src="img/card.jpg" alt="Credit card"
+                class="features__img lazy-img grid-item12" />
         </div>
     </section>
 
@@ -291,28 +343,9 @@
         <img src="img/icon.png" alt="Logo" class="footer__logo" />
         <p class="footer__copyright">
             &copy; Copyright by
-            <a class="footer__link twitter-link" target="_blank" href="https://twitter.com/jonasschmedtman">Jonas
-                Schmedtmann</a>. Use for learning or your portfolio. Don't use to teach. Don't claim
-            as your own product.
+            <a class="footer__link twitter-link" target="_blank" href="https://mikee-pixel.github.io/portfolio/">Michael Jhon Navidad</a>.
         </p>
     </footer>
-
-    <!-- <div class="modal hidden">
-        <button class="btn--close-modal">&times;</button>
-        <h2 class="modal__header">
-            Open your bank account <br />
-            in just <span class="highlight">5 minutes</span>
-        </h2>
-        <form class="modal__form" action="./main_app/index.html">
-            <label>First Name</label>
-            <input type="text" />
-            <label>Last Name</label>
-            <input type="text" />
-            <label>Email Address</label>
-            <input type="email" />
-            <button class="btn">Next step &rarr;</button>
-        </form>
-    </div> -->
 
     <div class="form-main-container hidden">
         <button class="btn--close-modal">&times;</button>
