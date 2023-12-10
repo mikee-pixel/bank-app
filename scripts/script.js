@@ -23,8 +23,6 @@ const headerBurgerMenu = () => {
 headerBurgerMenu();
 
 const landingHandleFunc = () => {
-  // const btnScroll = document.querySelector('.btn--scroll-to');
-  // const section1 = document.querySelector('#section--1');
   const navItems = document.querySelector('.nav__links');
   const btnContainer = document.querySelector('.operations__tab-container');
   const btnTabs = document.querySelectorAll('.operations__tab');
@@ -35,8 +33,7 @@ const landingHandleFunc = () => {
   const btnSliderRight = document.querySelector('.slider__btn--right');
   let currentSlider = 0;
   const dots = document.querySelector('.dots');
-  //IN THE MEAN TIME SCALE DOWN THE SLIDER
-  // const sliderContainer = document.querySelector('.slider');
+
 
   //PAGE NAVIGATION USING BUBBLING AND CAPTURING 
   navItems.addEventListener('click', (e) => {
@@ -149,8 +146,6 @@ const landingHandleFunc = () => {
   });
 
 
-
-
   //To add transform translateX 100% style incrementally for each of item slide: 100%, 200%, 300%
   slider.forEach((itemSlide, i) => {
     itemSlide.style.transform = `translateX(${i * 100}%)`;
@@ -217,10 +212,9 @@ const landingHandleFunc = () => {
 
   //ADDING EVENTLISTENER FOR LEFT AND RIGHT ARROW KEYS
   document.addEventListener('keydown', (e) => {
-    console.log(e);
     if (e.key === 'ArrowRight') nextSlide();
     if (e.key === 'ArrowLeft') prevSlide();
-    sliderDotNav(currentSlider);
+    // sliderDotNav(currentSlider); this creates an error to the code.
     activatingDot(currentSlider);
   })
 }
@@ -229,112 +223,3 @@ landingHandleFunc();
 
 
 
-//LOGIN FORM FUNCTION & LOGIN
-const formPopUpModal = () => {
-  const formMainContainer = document.querySelector('.form-main-container')
-  const overlay = document.querySelector('.form-overlay');
-  const btnCloseModal = document.querySelector('.btn--close-modal');
-  const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
-  const signInErrorMessage = document.querySelector('.signin-error-message');
-  // const formMainContainer = document.querySelector('.form-main-container');
-  const signInContainer = document.querySelector('.sign-in-container');
-  const signUpContainer = document.querySelector('.sign-up-container');
-  const overlayBtnSignIn = document.querySelector('.overlay-btn-signin');
-  const overlayBtnSignUp = document.querySelector('.overlay-btn-signup');
-  const btnSignIn = document.querySelector('.btn-sign-in');
-  const btnLogOut = document.querySelector('#logout-btn');
-  const btnSignUpMobile = document.querySelector('.btn-signup-mobile');
-  const btnSignInMobile = document.querySelector('.btn-sign-in-mobile');
-  const signInEmailInput = document.querySelector('.sign-in-container .email-input-field');
-  const signInPassInput = document.querySelector('.sign-in-container .password-input-field');
-  
-
-  const openModal = function () {
-    formMainContainer.classList.remove('hidden');
-    overlay.classList.remove('hidden');
-  };
-  
-  const closeModal = function () {
-    formMainContainer.classList.add('hidden');
-    overlay.classList.add('hidden');
-  };
-  
-  for (let i = 0; i < btnsOpenModal.length; i++)
-    btnsOpenModal[i].addEventListener('click', openModal);
-  
-  btnCloseModal.addEventListener('click', closeModal);
-  overlay.addEventListener('click', closeModal);
-  
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-      closeModal();
-    }
-  });
-  
-  overlayBtnSignUp.addEventListener('click', () => {
-    formMainContainer.classList.add('switching-active');
-    console.log('SignUp button is clicked!');
-  })
-  
-  overlayBtnSignIn.addEventListener('click', () => {
-    formMainContainer.classList.remove('switching-active');
-    console.log('SignIn button is clicked!');
-  })
-  
-  btnSignIn.addEventListener('click', (e) => {
-    e.preventDefault();
-    currentUser = accounts.find(acc => acc.username === signInEmailInput.value);
-    // console.log(currentUser);
-    if (currentUser && currentUser.pin === Number(signInPassInput.value)) {
-      //Timer initiate
-      timeOutTimer();
-      time = 300;
-  
-      //To hide the login form and display the app
-      formMotherContainer.classList.add('hidden');
-      containerApp.classList.add('active');
-      navigation.classList.add('active');
-  
-      //To show the date
-      const dateNow = new Date();
-      const dateTimeFormatter = (date) => {
-        const option = {
-          year: 'numeric',
-          month: 'numeric',
-          day: 'numeric',
-        }
-        return Intl.DateTimeFormat(`${currentUser.locale}`, option).format(date);
-      }
-      labelDate.textContent = dateTimeFormatter(dateNow);
-  
-      //Update the UI every time user login
-      updateIU();
-  
-      //Greeting to user
-      labelWelcome.textContent = `Welcome back! ${currentUser.owner.split(" ")[0]},`;
-      userNamex.textContent = `${currentUser.owner.split(" ")[0]} ${currentUser.owner.split(" ").slice(-1).map(word => word[0])}.`;
-      signInEmailInput.value = signInPassInput.value = "";
-  
-    } else if (signInEmailInput.value === '' || signInPassInput === '') {
-      displayErrorFunc();
-    }
-    else {
-      signInErrorMessage.classList.add('active');
-      signInErrorMessage.textContent = '*This user does not exists';
-    }
-  })
-  
-  //FORM MOBILE FUNCTION
-  btnSignUpMobile.addEventListener('click', () => {
-    console.log('Sign Up button mobile clicked');
-    signInContainer.classList.add('hide-mobile');
-    signUpContainer.classList.add('active-mobile');
-  })
-  
-  btnSignInMobile.addEventListener('click', () => {
-    signInContainer.classList.remove('hide-mobile');
-    signUpContainer.classList.remove('active-mobile');
-  })
-}
-
-formPopUpModal();

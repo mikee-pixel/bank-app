@@ -11,14 +11,14 @@
     <link rel="stylesheet" href="./styles/style.css" />
     <script src="https://kit.fontawesome.com/30daa11e3c.js" crossorigin="anonymous"></script>
     <title>Bankist | When Banking meets Minimalist</title>
-    <script defer src="script.js" type="module"></script>
+    <script defer src="./scripts/script.js" type="module"></script>
 </head>
 
 <body>
     <header class="header">
         <nav class="nav">
             <a href="/">
-                <img src="img/logo.png" alt="Bankist logo" class="nav__logo" id="logo" />
+                <img src="img/Color logo - no background.png" alt="Bankist logo" class="nav__logo" id="logo" />
             </a>
 
             <ul class="nav__links">
@@ -35,7 +35,7 @@
                     <a class="nav__link nav_item_fade" href="#section--3">Testimonials</a>
                 </li>
                 <li class="nav__item">
-                    <a class="nav__link nav__link--btn btn--show-modal" href="#">Open account</a>
+                    <button class="nav__link nav__link--btn btn" onclick="window.location = 'portal_application.html'">Open account</button>
                 </li>
             </ul>
 
@@ -87,7 +87,7 @@
             <div class="features__feature grid-item3">
                 <div class="features__icon">
                     <svg>
-                        <use xlink:href="img/icons.svg#icon-trending-up"></use>
+                        <use xlink:href="img/icons.svg#icon-cast"></use>
                     </svg>
                 </div>
                 <h5 class="features__header">Effortless transfers</h5>
@@ -112,7 +112,7 @@
                 </p>
             </div>
 
-            <div class="features__feature grid-item7">
+            <!-- <div class="features__feature grid-item7">
                 <div class="features__icon">
                     <svg>
                         <use xlink:href="img/icons.svg#icon-monitor"></use>
@@ -155,7 +155,7 @@
                 </p>
             </div>
             <img src="img/card-lazy.jpg" data-src="img/card.jpg" alt="Credit card"
-                class="features__img lazy-img grid-item12" />
+                class="features__img lazy-img grid-item12" /> -->
         </div>
     </section>
 
@@ -235,7 +235,7 @@
         <div class="section__title section__title--testimonials">
             <h2 class="section__description">Not sure yet?</h2>
             <h3 class="section__header">
-                Millions of Bankists are already making their lifes simpler.
+                Millions of DemoBank are already making their lifes simpler.
             </h3>
         </div>
 
@@ -313,7 +313,7 @@
                 today!
             </h3>
         </div>
-        <button class="btn btn--show-modal">Open your free account today!</button>
+        <button class="btn btn--show-modal" onclick="window.location = 'portal_application.html'">Open your free account today!</button>
     </section>
 
     <footer class="footer">
@@ -340,87 +340,14 @@
                 <a class="footer__link" href="#">Contact Us</a>
             </li>
         </ul>
-        <img src="img/icon.png" alt="Logo" class="footer__logo" />
+        <img src="img/White logo - no background.png" alt="Logo" class="footer__logo" />
         <p class="footer__copyright">
             &copy; Copyright by
             <a class="footer__link twitter-link" target="_blank" href="https://mikee-pixel.github.io/portfolio/">Michael Jhon Navidad</a>.
         </p>
     </footer>
 
-    <div class="form-main-container hidden">
-        <button class="btn--close-modal">&times;</button>
-        <div class="form-container sign-in-container">
-            <form action="#" class="">
-                <h1>Sign in</h1>
-                <div class="social-med-container">
-                    <a href="#" class="social-icon">
-                        <i class="fa-brands fa-facebook"></i>
-                    </a>
-                    <a href="#" class="social-icon">
-                        <i class="fa-brands fa-google-plus-g"></i>
-                    </a>
-                    <a href="#" class="social-icon">
-                        <i class="fa-brands fa-linkedin-in"></i>
-                    </a>
-                </div>
-                <p class="text-suggestion">or use you account</p>
-                <div class="input-container">
-                    <input type="text" class="input-field email-input-field" placeholder="*User">
-                </div>
-                <div class="input-container">
-                    <input type="password" class="input-field password-input-field" placeholder="*Password">
-                </div>
-                <p class="signin-error-message">Input field(s) cannot be empty</p>
-                <a href="#" class="forgot-pass-cta">Forgot you password?</a>
-                <button type="submit" class="btn-login btn-sign-in">SIGN IN</button>
-                <button type="button" class="btn-login btn-signup-mobile">SIGN UP</button>
-            </form>
-        </div>
-        <div class="form-container sign-up-container">
-            <form action="#" class="">
-                <h1>Create Account</h1>
-                <div class="social-med-container">
-                    <a href="#" class="social-icon">
-                        <i class="fa-brands fa-facebook"></i>
-                    </a>
-                    <a href="#" class="social-icon">
-                        <i class="fa-brands fa-google-plus-g"></i>
-                    </a>
-                    <a href="#" class="social-icon">
-                        <i class="fa-brands fa-linkedin-in"></i>
-                    </a>
-                </div>
-                <p class="text-suggestion">or use your email for registration</p>
-                <div class="input-container">
-                    <input type="text" class="input-field name-input-field" placeholder="Name">
-                </div>
-                <div class="input-container">
-                    <input type="text" class="input-field email-input-field" placeholder="User">
-                </div>
-                <div class="input-container">
-                    <input type="password" class="input-field password-input-field" placeholder="Password">
-                </div>
-                <button type="button" class="btn-login btn-signup">SIGN UP</button>
-                <button type="submit" class="btn-login btn-sign-in-mobile">SIGN IN</button>
-            </form>
-        </div>
-
-        <div class="container-overlay">
-            <div class="overlay">
-                <div class="overlay-panel overlay-left">
-                    <h2>Welcome Back!</h2>
-                    <p>To keep connected with us please login with your personal info</p>
-                    <button type="button" class="btn-login overlay-btn-signin">Sign In</button>
-                </div>
-                <div class="overlay-panel overlay-right">
-                    <h2>Hello, Friend!</h2>
-                    <p>Enter your personal details and start journey with us</p>
-                    <button type="button" class="btn-login overlay-btn-signup">Sign Up</button>
-
-                </div>
-            </div>
-        </div>
-    </div>
+    
 
     <div class="form-overlay hidden"></div>
 
