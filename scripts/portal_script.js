@@ -85,6 +85,7 @@ const inputTransferAmount = document.querySelector('.form__input--amount');
 const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
+const usersCredentialsDisplay = document.querySelector('.users-credentials-display');
 
 //RETURN TO LANDING PAGE
 btnCloseModal.addEventListener('click', (e) => {
@@ -275,6 +276,7 @@ const calcDateTrans = (date) => {
         navigation.classList.remove('active');
         containerApp.classList.remove('active');
         formMainContainer.classList.remove('hidden');
+        usersCredentialsDisplay.classList.remove('hidden');
         console.log('User will be now logout');
       }
   
@@ -303,9 +305,10 @@ const calcDateTrans = (date) => {
     currentUser = accounts.find(acc => acc.username === signInEmailInput.value);
     console.log(currentUser);
     if(currentUser && currentUser.pin === Number(signInPassInput.value)){
-        formMainContainer.classList.add('hidden');
+      formMainContainer.classList.add('hidden');
       containerApp.classList.add('active');
       navigation.classList.add('active');
+      usersCredentialsDisplay.classList.add('hidden');
   
       //To update the time clock in real time
       setInterval(() => {
@@ -350,4 +353,5 @@ const calcDateTrans = (date) => {
     navigation.classList.remove('active');
     containerApp.classList.remove('active');
     formMainContainer.classList.remove('hidden');
+    usersCredentialsDisplay.classList.remove('hidden');
   })
